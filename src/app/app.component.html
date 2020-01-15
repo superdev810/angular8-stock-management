@@ -1,0 +1,41 @@
+<div class="container-wrapper">
+  <div>
+    <h2 class="title">{{title}}</h2>
+  </div>
+  <div class="form-container">
+    <mat-form-field>
+      <input matInput placeholder="Input search stock name" #searchInput class="mat-form-field mat-form-field-fluid">
+    </mat-form-field>
+    <button mat-raised-button (click)="searchStock()" color="primary" class="primary search-btn">Search Stock</button>
+  </div>
+  <mat-table [dataSource]="stocks" matSort matSortActive="price" matSortDirection="asc" matSortDisableClear>
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+      <mat-cell *matCellDef="let stock">{{stock.symbol}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-cell *matCellDef="let stock">{{stock.price}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+      <mat-cell *matCellDef="let stock">{{stock.size}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef>Time</mat-header-cell>
+      <mat-cell *matCellDef="let stock">{{stock.time}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+      <mat-cell *matCellDef="let stock">
+        <button mat-icon-button color="warn" type="button" (click)="delete(stock)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+  <div class="table-desc" *ngIf="stocks.length === 0 && !loading | async">No records</div>
+  <mat-spinner class="spinner" [diameter]="20" *ngIf="loading | async"></mat-spinner>
+</div>
